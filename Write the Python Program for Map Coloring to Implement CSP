@@ -1,0 +1,29 @@
+colors = ['Red', 'Green', 'Blue']
+
+graph = {
+    'A': ['B', 'C'],
+    'B': ['A', 'C', 'D'],
+    'C': ['A', 'B', 'D'],
+    'D': ['B', 'C']
+}
+
+color_map = {}
+
+def solve(node):
+    if node == len(graph):
+        return True
+
+    state = list(graph.keys())[node]
+
+    for color in colors:
+        if all(color_map.get(nei) != color for nei in graph[state]):
+            color_map[state] = color
+            if solve(node + 1):
+                return True
+
+    return False
+
+solve(0)
+
+for state, color in color_map.items():
+    print(state, "->", color)
