@@ -1,0 +1,31 @@
+from queue import PriorityQueue
+
+graph = {
+    'A': [('B', 1), ('C', 3)],
+    'B': [('D', 3), ('E', 1)],
+    'C': [('F', 5)],
+    'D': [],
+    'E': [('G', 2)],
+    'F': [],
+    'G': []
+}
+
+h = {'A': 5, 'B': 4, 'C': 4, 'D': 2, 'E': 2, 'F': 1, 'G': 0}
+
+pq = PriorityQueue()
+pq.put((h['A'], 0, 'A'))
+visited = set()
+
+while not pq.empty():
+    f, g, node = pq.get()
+
+    if node == 'G':
+        print("Goal reached")
+        break
+
+    if node in visited:
+        continue
+    visited.add(node)
+
+    for nxt, cost in graph[node]:
+        pq.put((g + cost + h[nxt], g + cost, nxt))
